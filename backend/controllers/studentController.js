@@ -1,6 +1,8 @@
 // 📁 controllers/studentController.js
 import Student from "../models/Students.js";
 import { studentSchema, updateStudentSchema } from "../validators/studentValidator.js";
+import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken"
 
 export const createStudent = async (req, res) => {
     try {
@@ -9,7 +11,9 @@ export const createStudent = async (req, res) => {
             return res.status(400).json({ message: error.details[0].message });
         }
 
-        const { fullName, email, phone, roomNumber, profilePic, admissionDate } = req.body;
+        const { fullName, email, phone, roomNumber, profilePic, admissionDate, password } = req.body;
+
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const studentExist = await Student.findOne({ email });
         if (studentExist) {
@@ -17,18 +21,53 @@ export const createStudent = async (req, res) => {
         }
 
         const newStudent = await new Student({
-            fullName, email, phone, roomNumber, profilePic, admissionDate
+            fullName, email, phone, roomNumber, profilePic, admissionDate, password: hashedPassword
         }).save();
+
+        const { password: _, ...studentWithoutPassword } = newStudent.toObject();
 
         return res.status(201).json({
             message: "Student created successfully",
-            student: newStudent
+            student: studentWithoutPassword
         });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Internal server error" });
     }
 };
+
+export const loginStudent = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const studentExist = await Student.findOne({email});
+        if (!studentExist) {
+            return res.status(404).json({ message: `No student registered with this ${email}` })
+        }
+        console.log("Entered password", req.body.password);
+        console.log("hassed password", studentExist.password);
+        const passwordMatch = await bcrypt.compare(password, studentExist.password)
+        console.log("password matched", passwordMatch);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ message: "Wrong password" })
+        }
+
+        const jwtToken = jwt.sign({ id: studentExist._id, email: studentExist.email }, "123124asdajsbdahjsbdajsb123", { expiresIn: "24h" });
+        console.log(jwtToken, "token generated")
+        // Don't return the password in the response
+        const { password: _, ...studentInfo } = studentExist.toObject();
+        return res.status(200).json({
+            message: "login successful",
+            jwtToken: jwtToken,
+            student: studentInfo
+        })
+
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
 
 export const getAllStudents = async (req, res) => {
     try {
