@@ -7,7 +7,10 @@ const studentMongooseSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   roomNumber: { type: String },
   profilePic: { type: String },
-  admissionDate: { type: Date, default: Date.now },
+  admissionDate: { type: Date, default: Date.now,required:true },
+  totalFees: { type: Number, default: 12000 },  // Total fees
+  paid: { type: Number, default: 0 },           // Paid so far
+  remaining: { type: Number, default: 12000 }   // Remaining fees
 });
 
 const Student = mongoose.model("Student", studentMongooseSchema);

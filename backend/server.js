@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors"
 import studentRoutes from "./routes/studentRoutes.js"
 import roomRoutes from "./routes/roomRoutes.js"
+import paymentRoutes from "./routes/paymentRoutes.js"
 
 
 dotenv.config();
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api", studentRoutes);
-app.use("/api",roomRoutes)
+app.use("/api",roomRoutes);
+app.use("/api",paymentRoutes);
 
 const PORT=process.env.PORT
 app.listen(PORT,()=>{
