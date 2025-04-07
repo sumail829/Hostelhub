@@ -2,7 +2,7 @@ import Room from "../models/Rooms.js";
 import Student from "../models/Students.js";
 export const createRoom = async (req, res) => {
     try {
-        const { roomNumber, capacity, occupied, students } = req.body;
+        const { roomNumber, capacity, occupied, students, roomimage } = req.body;
 
         // Validation: Check if required fields are provided
         if (!roomNumber || !capacity || occupied === undefined) {
@@ -20,6 +20,7 @@ export const createRoom = async (req, res) => {
             roomNumber,
             capacity,
             occupied,
+            roomimage,
             students: students || []
         });
 
