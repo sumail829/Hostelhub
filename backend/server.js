@@ -5,7 +5,7 @@ import cors from "cors"
 import studentRoutes from "./routes/studentRoutes.js"
 import roomRoutes from "./routes/roomRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
-
+import adminRoutes from "./routes/adminRoutes.js"
 
 dotenv.config();
 connectDB();
@@ -18,6 +18,7 @@ app.use(cors());
 app.use("/api", studentRoutes);
 app.use("/api",roomRoutes);
 app.use("/api",paymentRoutes);
+app.use("/api",adminRoutes);
 
 const PORT=process.env.PORT
 app.listen(PORT,()=>{
