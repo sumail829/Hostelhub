@@ -41,6 +41,11 @@ export default function Navbar() {
             ))}
             <div className="flex items-center space-x-2">
               <Button variant="outline" asChild>
+                <Link href="/admin/login">Login as Admin</Link>
+              </Button>
+
+
+              <Button variant="outline" asChild>
                 <Link href="/signup">Sign Up</Link>
               </Button>
               <Button variant="default" asChild>

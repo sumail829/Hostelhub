@@ -18,6 +18,7 @@ export const createAdmin=async(req,res)=>{
             name,
             email,
             password:hashedPassword,
+            role: "admin"
         }).save();
         return res.status(201).json({message:"Admin created",admin:newAdmin})
     } catch (error) {
@@ -40,7 +41,7 @@ export const loginAdmin=async(req,res)=>{
             return res.status(401).json({message:"Invalid credential"});
         }
         const token=jwt.sign({id:admin._id,email:admin.email,role:"admin"},"dasdhajshdash123sasdau213",{
-            expiresIn:"1d",
+            expiresIn:"7d",
         });
         const { password: _, ...adminData } = admin._doc;
         return res.status(200).json({message:"Login successful",token,admin:adminData})

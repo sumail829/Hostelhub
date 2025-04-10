@@ -13,7 +13,10 @@ connectDB();
 const app=express();
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000", // Your frontend URL
+    credentials: true // if using cookies
+  }));
 
 app.use("/api", studentRoutes);
 app.use("/api",roomRoutes);

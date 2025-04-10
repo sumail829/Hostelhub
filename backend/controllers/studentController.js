@@ -52,7 +52,7 @@ export const loginStudent = async (req, res) => {
             return res.status(401).json({ message: "Wrong password" })
         }
 
-        const jwtToken = jwt.sign({ id: studentExist._id, email: studentExist.email }, "123124asdajsbdahjsbdajsb123", { expiresIn: "24h" });
+        const jwtToken = jwt.sign({ id: studentExist._id, email: studentExist.email }, "123124asdajsbdahjsbdajsb123", { expiresIn: "7d" });
         console.log(jwtToken, "token generated")
         // Don't return the password in the response
         const { password: _, ...studentInfo } = studentExist.toObject();
