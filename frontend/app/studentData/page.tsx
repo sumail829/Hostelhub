@@ -1,9 +1,21 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import { Interface } from 'readline';
+
+interface IStudent{
+    _id:string;
+    fullName:string;
+    roomNumber:string;
+    totalFees:number;
+    paid:number;
+    remaining:number
+
+}
+
 
 export default function StudentsData() {
-    const [students, setStudents] = useState([]);
+    const [students, setStudents] = useState<IStudent[]>([]);
 
     useEffect(() => {
         const fetchStudents = async () => {

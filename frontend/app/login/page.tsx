@@ -27,8 +27,23 @@ export default function LoginPage() {
         password
       })
       console.log("loginin successful",response);
-      setSuccess("signup successfull");
-      router.push("/rooms")
+      console.log("Full login response:", response.data);
+       // Store the JWT token in localStorage
+       if (response.data.jwtToken) {
+        localStorage.setItem("authToken", response.data.jwtToken);
+        console.log("Token saved:", response.data.jwtToken);
+        console.log("Token in storage:", localStorage.getItem("authToken"));
+        
+        // Store student info if needed
+        if (response.data.student) {
+          localStorage.setItem("studentInfo", JSON.stringify(response.data.student));
+        }
+      }
+
+      setSuccess("signin successfull");
+      setTimeout(() => {
+        router.push("/student");
+      }, 1000);
      
       setEmail("");
       setPassword("");

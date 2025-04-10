@@ -7,8 +7,10 @@ import { Label } from "@/components/ui/label";
 import { UserPlus } from "lucide-react";
 import { useState } from "react";
 import axios from "axios"
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+  const router=useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -48,6 +50,10 @@ export default function SignupPage() {
       });
       console.log(response);
       setSuccess("signup successfull");
+      setTimeout(() => {
+        router.push("/login")
+      }, 1000);
+      // Clear form data after successful signup
       setFormData({
         fullName: "",
         email: "",
