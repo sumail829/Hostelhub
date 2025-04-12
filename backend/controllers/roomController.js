@@ -1,38 +1,57 @@
 import Room from "../models/Rooms.js";
 import Student from "../models/Students.js";
-export const createRoom = async (req, res) => {
-    try {
-        const { roomNumber, capacity, occupied, students, roomimage } = req.body;
+import { v2 as cloudinary } from 'cloudinary'
+import multer from "multer";
+import 'dotenv/config'
+const upload = multer({ dest: 'uploads/' })
 
-        // Validation: Check if required fields are provided
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+
+
+
+
+export const createRoom = [upload.single('roomimage'),async (req, res) => {
+      try {
+        const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+        console.log(cloudinaryResponse, "cloudinary Response");
+  
+        const { roomNumber, capacity, occupied, students } = req.body;
+  
+        // Validation
         if (!roomNumber || !capacity || occupied === undefined) {
-            return res.status(400).json({ message: "Please provide all required fields (roomNumber, capacity, and occupied)" });
+          return res.status(400).json({ message: "Please provide all required fields (roomNumber, capacity, and occupied)" });
         }
-
-        // Check if room already exists (if you want to prevent duplicates)
+  
+        // Check if room already exists
         const existingRoom = await Room.findOne({ roomNumber });
         if (existingRoom) {
-            return res.status(409).json({ message: "Room already exists with this room number" });
+          return res.status(409).json({ message: "Room already exists with this room number" });
         }
-
-        // Create and save the new room
+  
+        // Create new room
         const newRoom = new Room({
-            roomNumber,
-            capacity,
-            occupied,
-            roomimage,
-            students: students || []
+          roomNumber,
+          capacity,
+          occupied,
+          roomimage: cloudinaryResponse.secure_url, // use uploaded image URL
+          students: students || []
         });
-
-        await newRoom.save();  // Save the room
-
+  
+        await newRoom.save();
+  
         return res.status(201).json({ message: "New room created successfully", room: newRoom });
-
-    } catch (error) {
+  
+      } catch (error) {
         console.log("Something went wrong", error);
         return res.status(500).json({ message: "Internal server error" });
+      }
     }
-};
+  ];
+  
 
 export const enrollStudentInRoom = async (req, res) => {
     try {

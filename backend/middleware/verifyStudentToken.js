@@ -1,7 +1,7 @@
 // middleware/verifyToken.js
 import jwt from "jsonwebtoken";
 
-export const verifyToken = (req, res, next) => {
+export const verifyStudentToken = (req, res, next) => {
   const authHeader = req.headers.authorization; // ✅ Correct way to read
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

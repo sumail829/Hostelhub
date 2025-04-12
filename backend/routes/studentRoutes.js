@@ -8,16 +8,16 @@ import {
   deleteStudent,
   loginStudent
 } from "../controllers/studentController.js";
-import { verifyToken } from "../middleware/verifyToken.js";
+import { verifyStudentToken } from "../middleware/verifyStudentToken.js";
 import verifyAdminToken from "../middleware/verifyAdminToken.js";
 
 const router = express.Router();
 
 router.post("/students/signup",createStudent);
 router.post("/auth/login",loginStudent);
-router.get("/students/:id",verifyToken, getSingleStudent);
-router.patch("/students/:id",verifyToken, updateStudent);
-router.delete("/students/:id",verifyToken, deleteStudent);
+router.get("/students/:id",verifyStudentToken, getSingleStudent);
+router.patch("/students/:id",verifyStudentToken, updateStudent);
+router.delete("/students/:id",verifyStudentToken, deleteStudent);
 
 router.get("/students",verifyAdminToken, getAllStudents);
 

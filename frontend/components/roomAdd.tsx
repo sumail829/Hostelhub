@@ -4,18 +4,21 @@ import axios from "axios";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
 interface Room {
     _id: string;
     roomNumber: string;
     capacity: number;
     occupied: number;
+    roomimage:string;
+    students?: string[]; // Optional if needed
 }
 
 export default function RoomAdd() {
     const [rooms, setRooms] = useState<Room[]>([]);
     const [showAddRoom, setShowAddRoom] = useState(false);
-    const [newRoom, setNewRoom] = useState({ roomNumber: "", capacity: 2 });
+    const [newRoom, setNewRoom] = useState({ roomNumber: "", capacity: 2,  roomimage: null as File | null });
 
     const fetchRooms = async () => {
         try {
@@ -32,23 +35,30 @@ export default function RoomAdd() {
 
     const handleAddRooms = async () => {
         try {
-            const res = await axios.post("http://localhost:4000/api/rooms", {
-                roomNumber: newRoom.roomNumber,
-                capacity: newRoom.capacity,
-                occupied: 0,
-            });
-
-            console.log(res.data.message);
-            setShowAddRoom(false);
-            setNewRoom({ roomNumber: "", capacity: 2 });
-            fetchRooms(); // Refresh room list
+          const formData = new FormData();
+          formData.append("roomNumber", newRoom.roomNumber);
+          formData.append("capacity", newRoom.capacity.toString());
+          formData.append("occupied", "0"); // or "0"
+          formData.append("roomimage", newRoom.roomimage as File); // Use the selected file from state
+      
+          const res = await axios.post("http://localhost:4000/api/rooms", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+      
+          console.log(res.data.message);
+          setShowAddRoom(false);
+          setNewRoom({ roomNumber: "", capacity: 2, roomimage: null });
+          fetchRooms(); // refresh
         } catch (error: any) {
-            console.log(
-                "Room creation failed:",
-                error.response?.data?.message || error.message
-            );
+          console.log(
+            "Room creation failed:",
+            error.response?.data?.message || error.message
+          );
         }
-    };
+      };
+      
 
     return (
         <div>
@@ -95,6 +105,18 @@ export default function RoomAdd() {
                                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
                             />
                         </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Room Image
+                            </label>
+                            <input
+                                type="file"
+                                onChange={(e) =>
+                                    setNewRoom({ ...newRoom, roomimage:e.target.files ? e.target.files[0] : null })
+                                }
+                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                            />
+                        </div>
                         <button
                             onClick={handleAddRooms}
                             className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
@@ -108,6 +130,7 @@ export default function RoomAdd() {
                 <div className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {rooms.map((room) => {
+                             console.log("Room Image:", room.roomimage);
                             const isAvailable = room.occupied < room.capacity;
                             return (
                                 <Link key={room._id} href={`/roomData/${room._id}`}>
@@ -118,6 +141,17 @@ export default function RoomAdd() {
                                         <p className="text-sm text-gray-600">
                                             Capacity: {room.capacity}
                                         </p>
+                                        <div className="p-4 border border-gray-100 rounded-lg">
+                                            <Image
+                                                src={room.roomimage || "/next.svg"}
+                                                alt="Room Image"
+                                                width={300}
+                                                height={200}
+                                                className="rounded-lg"
+                                                style={{ objectFit: "cover" }}>
+
+                                            </Image>
+                                        </div>
                                         <span
                                             className={`inline-block px-2 py-1 text-xs rounded-full mt-2 ${isAvailable
                                                 ? "bg-green-100 text-green-800"
