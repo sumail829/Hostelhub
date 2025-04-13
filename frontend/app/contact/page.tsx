@@ -16,15 +16,15 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Simulate form submission
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you as soon as possible.",
-    });
+    // toast({
+    //   title: "Message Sent",
+    //   description: "We'll get back to you as soon as possible.",
+    // });
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
@@ -176,6 +176,6 @@ export default function ContactPage() {
   );
 }
 
-function useToast(): { toast: any; } {
-    throw new Error("Function not implemented.");
-}
+// function useToast(): { toast: any; } {
+//     throw new Error("Function not implemented.");
+// }

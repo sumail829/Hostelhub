@@ -7,16 +7,23 @@ import React, { useEffect, useState } from 'react'
 export default function Hero() {
         const[showStudents,setShowStudents]=useState("")
 
-        const fetchAllStudent=async()=>{
+        const fetchAllStudent = async () => {
             try {
-                const response=await axios.get("http://localhost:4000/api/students");
-                console.log("all student",response)
-                setShowStudents(response.data.students)
-                
+                const token = localStorage.getItem("adminToken"); // or sessionStorage, based on your app
+        
+                const response = await axios.get("http://localhost:4000/api/students", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+        
+                console.log("all student", response);
+                setShowStudents(response.data.students);
             } catch (error) {
-                console.log("Something went wrong",error)
+                console.log("Something went wrong", error);
             }
-        }
+        };
+        // Fetch all students when the component mounts        
      useEffect(()=>{
         fetchAllStudent();
      },[]);
@@ -24,7 +31,7 @@ export default function Hero() {
     return (
         <div className='max-w-7xl mx-auto px-4 py-8'>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <Link href={"/studentData"}>
+                <Link href={"/admin/studentData"}>
 
                 <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
 

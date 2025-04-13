@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { Plus } from "lucide-react";
+import { Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -11,14 +11,14 @@ interface Room {
     roomNumber: string;
     capacity: number;
     occupied: number;
-    roomimage:string;
+    roomimage: string;
     students?: string[]; // Optional if needed
 }
 
 export default function RoomAdd() {
     const [rooms, setRooms] = useState<Room[]>([]);
     const [showAddRoom, setShowAddRoom] = useState(false);
-    const [newRoom, setNewRoom] = useState({ roomNumber: "", capacity: 2,  roomimage: null as File | null });
+    const [newRoom, setNewRoom] = useState({ roomNumber: "", capacity: 2, roomimage: null as File | null });
 
     const fetchRooms = async () => {
         try {
@@ -35,30 +35,38 @@ export default function RoomAdd() {
 
     const handleAddRooms = async () => {
         try {
-          const formData = new FormData();
-          formData.append("roomNumber", newRoom.roomNumber);
-          formData.append("capacity", newRoom.capacity.toString());
-          formData.append("occupied", "0"); // or "0"
-          formData.append("roomimage", newRoom.roomimage as File); // Use the selected file from state
-      
-          const res = await axios.post("http://localhost:4000/api/rooms", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-      
-          console.log(res.data.message);
-          setShowAddRoom(false);
-          setNewRoom({ roomNumber: "", capacity: 2, roomimage: null });
-          fetchRooms(); // refresh
+            const formData = new FormData();
+            formData.append("roomNumber", newRoom.roomNumber);
+            formData.append("capacity", newRoom.capacity.toString());
+            formData.append("occupied", "0"); // or "0"
+            formData.append("roomimage", newRoom.roomimage as File); // Use the selected file from state
+
+            const res = await axios.post("http://localhost:4000/api/rooms", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            console.log(res.data.message);
+            setShowAddRoom(false);
+            setNewRoom({ roomNumber: "", capacity: 2, roomimage: null });
+            fetchRooms(); // refresh
         } catch (error: any) {
-          console.log(
-            "Room creation failed:",
-            error.response?.data?.message || error.message
-          );
+            console.log(
+                "Room creation failed:",
+                error.response?.data?.message || error.message
+            );
         }
-      };
-      
+    };
+    const deleteRoom = async (id: string) => {
+        try {
+            const response = await axios.delete(`http://localhost:4000/api/rooms/${id}`);
+            console.log(response.data.message);
+            fetchRooms(); // refresh
+        } catch (error) {
+            console.error("Error deleting room:", error);
+        }
+    }
 
     return (
         <div>
@@ -112,7 +120,7 @@ export default function RoomAdd() {
                             <input
                                 type="file"
                                 onChange={(e) =>
-                                    setNewRoom({ ...newRoom, roomimage:e.target.files ? e.target.files[0] : null })
+                                    setNewRoom({ ...newRoom, roomimage: e.target.files ? e.target.files[0] : null })
                                 }
                                 className="mt-1 block w-full border border-gray-300 rounded-md p-2"
                             />
@@ -130,14 +138,21 @@ export default function RoomAdd() {
                 <div className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {rooms.map((room) => {
-                             console.log("Room Image:", room.roomimage);
+                            console.log("Room Image:", room.roomimage);
                             const isAvailable = room.occupied < room.capacity;
                             return (
-                                <Link key={room._id} href={`/roomData/${room._id}`}>
-                                    <div className="p-4 border border-gray-100 rounded-lg" >
-                                        <h3 className="font-medium text-gray-900">
+                                
+                                    <div key={room._id} className="p-4 border border-gray-100 rounded-lg" >
+                                        <div className='flex justify-between items-center'>
+
+                                        <div className="font-medium text-gray-900">
                                             Room: {room.roomNumber}
-                                        </h3>
+                                        </div>
+                                        <div onClick={() => deleteRoom(room._id)} className="cursor-pointer">
+                                            <Trash > trash</Trash>
+                                        </div>
+                                        </div>
+                                        <Link  href={`/roomData/${room._id}`}>
                                         <p className="text-sm text-gray-600">
                                             Capacity: {room.capacity}
                                         </p>
@@ -152,6 +167,7 @@ export default function RoomAdd() {
 
                                             </Image>
                                         </div>
+                                        </Link>
                                         <span
                                             className={`inline-block px-2 py-1 text-xs rounded-full mt-2 ${isAvailable
                                                 ? "bg-green-100 text-green-800"
@@ -161,7 +177,7 @@ export default function RoomAdd() {
                                             {isAvailable ? "Available" : "Occupied"}
                                         </span>
                                     </div>
-                                </Link>
+                               
                             );
                         })}
                     </div>

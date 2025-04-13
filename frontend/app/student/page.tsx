@@ -61,7 +61,7 @@ export default function StudentInfo() {
         const studentData = response.data.student;
         setStudent(studentData);
       } catch (error) {
-        console.error("Error details:", error.response ? error.response.data : error.message);
+        console.error("Error details:",error);
       }
     };
   

@@ -19,7 +19,7 @@ export default function StudentsData() {
 
     useEffect(() => {
         const fetchStudents = async () => {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('adminToken');
 
             // // If no token or it's invalid
             // if (!token || token === "undefined") {
