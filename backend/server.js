@@ -6,7 +6,7 @@ import studentRoutes from "./routes/studentRoutes.js"
 import roomRoutes from "./routes/roomRoutes.js"
 import paymentRoutes from "./routes/paymentRoutes.js"
 import adminRoutes from "./routes/adminRoutes.js"
-
+import serviceRoutes from "./routes/serviceRoutes.js"
 dotenv.config();
 connectDB();
 
@@ -22,6 +22,7 @@ app.use("/api", studentRoutes);
 app.use("/api",roomRoutes);
 app.use("/api",paymentRoutes);
 app.use("/api",adminRoutes);
+app.use("/api",serviceRoutes);
 
 const PORT=process.env.PORT
 app.listen(PORT,()=>{
