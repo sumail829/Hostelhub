@@ -4,19 +4,19 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import { Trash } from 'lucide-react';
+import { Check, Trash } from 'lucide-react';
+import { Button } from './ui/button';
 
 interface Room {
   _id: string;
   roomNumber: string;
   capacity: number;
   occupied: number;
-  roomimage:string;
+  roomimage: string;
 }
 
 export default function RoomList() {
   const [rooms, setRooms] = useState<Room[]>([]);
-  const [deleteRoomId, setDeleteRoomId] = useState<string | null>(null);
 
   const fetchRooms = async () => {
     try {
@@ -26,11 +26,31 @@ export default function RoomList() {
       console.error("Error fetching rooms:", error);
     }
   };
-  
-  
-    useEffect(() => {
-      fetchRooms();
-    }, []);
+
+  // const chooseRoom = async (roomNumber: string) => {
+  //   try {
+  //     const token = localStorage.getItem("authToken");
+
+  //     const res = await axios.post(
+  //       "http://localhost:4000/api/enroll",
+  //       { roomNumber },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+
+  //     console.log("Enrolled successfully:", res.data);
+  //   } catch (error) {
+  //     console.error("Enrollment error:", error);
+  //   }
+  // };
+
+
+  useEffect(() => {
+    fetchRooms();
+  }, []);
 
   const availableRooms = rooms.filter(room => room.occupied < room.capacity);
 
@@ -41,7 +61,7 @@ export default function RoomList() {
           {availableRooms.map((room) => (
             <Link key={room._id} href={`/roomData/${room._id}`}>
               <div className="p-4 border border-gray-100 rounded-lg">
-               
+
                 <div className="font-medium text-gray-900">
                   Room: {room.roomNumber}
                 </div>
@@ -60,6 +80,9 @@ export default function RoomList() {
                 <span className="inline-block px-2 py-1 text-xs rounded-full mt-2 bg-green-100 text-green-800">
                   Available
                 </span>
+                {/* <Button onClick={() => chooseRoom(room.roomNumber)} className="mt-4 cursor-pointer">
+                   Choose Room
+                </Button> */}
               </div>
             </Link>
           ))}

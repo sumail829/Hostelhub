@@ -10,7 +10,7 @@ import axios from "axios"
 import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-  const router=useRouter();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -49,10 +49,14 @@ export default function SignupPage() {
         phone
       });
       console.log(response);
+
+      // ✅ Save new token and student info
+      if (response.data.jwtToken) {
+        localStorage.setItem("authToken", response.data.jwtToken);
+        localStorage.setItem("studentInfo", JSON.stringify(response.data.student));
+      }
+
       setSuccess("signup successfull");
-      setTimeout(() => {
-        router.push("/login")
-      }, 1000);
       // Clear form data after successful signup
       setFormData({
         fullName: "",
@@ -62,6 +66,9 @@ export default function SignupPage() {
         phone: ""
 
       })
+      setTimeout(() => {
+        router.push("/selectRoom");
+      }, 1000);
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -113,7 +120,7 @@ export default function SignupPage() {
             </div>
           </CardContent>
           <CardFooter className="py-2">
-          <Button type="submit" className="w-full">Sign Up</Button>
+            <Button type="submit" className="w-full">Sign Up</Button>
           </CardFooter>
         </form>
       </Card>

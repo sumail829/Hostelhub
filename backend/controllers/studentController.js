@@ -26,9 +26,17 @@ export const createStudent = async (req, res) => {
 
         const { password: _, ...studentWithoutPassword } = newStudent.toObject();
 
+        // 🔐 Generate JWT token
+        const jwtToken = jwt.sign(
+            { id: newStudent._id, email: newStudent.email },
+            "123124asdajsbdahjsbdajsb123",
+            { expiresIn: "7d" }
+        );
+
         return res.status(201).json({
             message: "Student created successfully",
-            student: studentWithoutPassword
+            student: studentWithoutPassword,
+            jwtToken
         });
     } catch (error) {
         console.error(error);
@@ -39,7 +47,7 @@ export const createStudent = async (req, res) => {
 export const loginStudent = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const studentExist = await Student.findOne({email});
+        const studentExist = await Student.findOne({ email });
         if (!studentExist) {
             return res.status(404).json({ message: `No student registered with this ${email}` })
         }

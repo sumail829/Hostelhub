@@ -14,48 +14,53 @@ cloudinary.config({
 
 
 
-export const createRoom = [upload.single('roomimage'),async (req, res) => {
-      try {
+export const createRoom = [upload.single('roomimage'), async (req, res) => {
+    try {
         const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
         console.log(cloudinaryResponse, "cloudinary Response");
-  
+
         const { roomNumber, capacity, occupied, students } = req.body;
-  
+
         // Validation
         if (!roomNumber || !capacity || occupied === undefined) {
-          return res.status(400).json({ message: "Please provide all required fields (roomNumber, capacity, and occupied)" });
+            return res.status(400).json({ message: "Please provide all required fields (roomNumber, capacity, and occupied)" });
         }
-  
+
         // Check if room already exists
         const existingRoom = await Room.findOne({ roomNumber });
         if (existingRoom) {
-          return res.status(409).json({ message: "Room already exists with this room number" });
+            return res.status(409).json({ message: "Room already exists with this room number" });
         }
-  
+
         // Create new room
         const newRoom = new Room({
-          roomNumber,
-          capacity,
-          occupied,
-          roomimage: cloudinaryResponse.secure_url, // use uploaded image URL
-          students: students || []
+            roomNumber,
+            capacity,
+            occupied,
+            roomimage: cloudinaryResponse.secure_url, // use uploaded image URL
+            students: students || []
         });
-  
+
         await newRoom.save();
-  
+
         return res.status(201).json({ message: "New room created successfully", room: newRoom });
-  
-      } catch (error) {
+
+    } catch (error) {
         console.log("Something went wrong", error);
         return res.status(500).json({ message: "Internal server error" });
-      }
     }
-  ];
-  
+}
+];
+
 
 export const enrollStudentInRoom = async (req, res) => {
     try {
-        const { roomNumber, studentid } = req.body;  // Assuming you're passing roomId and studentId in the body
+
+        console.log("👤 req.user.id:", req.user.id); // <-- ADD THIS
+        console.log("📦 req.body:", req.body);  
+
+        const { roomNumber } = req.body;
+        const studentid = req.user.id;   // Assuming you're passing roomId and studentId in the body 
 
         // Find the room by ID
         const room = await Room.findOne({ roomNumber });
@@ -63,6 +68,7 @@ export const enrollStudentInRoom = async (req, res) => {
         if (!room) {
             return res.status(404).json({ message: "Room not found" });
         }
+        console.log("📦 Room found:", room);
 
         // Check if room is available (based on occupancy and capacity)
         if (room.occupied >= room.capacity) {
@@ -75,13 +81,19 @@ export const enrollStudentInRoom = async (req, res) => {
         if (!student) {
             return res.status(404).json({ message: "Student not found" });
         }
+        console.log("👤 Student found:", student);
 
         const alreadyEnrolled = await Room.findOne({ students: studentid });
         if (alreadyEnrolled) {
             return res.status(400).json({ message: "Student is already enrolled in a room" });
         }
+        console.log("🔁 Already Enrolled Check:", alreadyEnrolled);
 
-        // Add student to the room
+        // Update student's roomNumber
+        student.roomNumber = room.roomNumber;
+        await student.save();
+
+        // Add student to the room  
         room.students.push(studentid);
         room.occupied += 1;
 
@@ -105,8 +117,8 @@ export const enrollStudentInRoom = async (req, res) => {
 
 export const getAllRoom = async (req, res) => {
     try {
-        const getRoomInfo=await Room.find();
-        return res.status(201).json({message:"fetched all Roominfo",roominfo:getRoomInfo})
+        const getRoomInfo = await Room.find();
+        return res.status(201).json({ message: "fetched all Roominfo", roominfo: getRoomInfo })
 
     } catch (error) {
         console.log("Error enrolling student:", error);
@@ -117,11 +129,11 @@ export const getAllRoom = async (req, res) => {
 
 export const getSingleRoom = async (req, res) => {
     try {
-        const getRoomInfo=await Room.findById(req.params.id);
-        if(!getRoomInfo){
-            return res.status(404).json({message:"Room not found"})
+        const getRoomInfo = await Room.findById(req.params.id);
+        if (!getRoomInfo) {
+            return res.status(404).json({ message: "Room not found" })
         }
-        return res.status(201).json({message:"fetched single Roominfo",roominfo:getRoomInfo})
+        return res.status(201).json({ message: "fetched single Roominfo", roominfo: getRoomInfo })
 
     } catch (error) {
         console.log("Error enrolling student:", error);
@@ -159,20 +171,20 @@ export const updateRoom = async (req, res) => {
     }
 };
 
-export const deleteRoom=async(req,res)=>{
+export const deleteRoom = async (req, res) => {
     try {
-        const deletedRoom=await Room.findByIdAndDelete(req.params.id);
-        if(!deletedRoom){
+        const deletedRoom = await Room.findByIdAndDelete(req.params.id);
+        if (!deletedRoom) {
             return res.status(404).json({
-                message:"No Room found"
+                message: "No Room found"
             })
 
         }
-        return res.status(200).json({message:"Room deleted successfully"});
-        
+        return res.status(200).json({ message: "Room deleted successfully" });
+
     } catch (error) {
         console.log("Error updating room:", error);
         return res.status(500).json({ message: "Internal server error" });
-        
+
     }
 }

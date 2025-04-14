@@ -13,27 +13,31 @@ import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router=useRouter();
-  const[success,setSuccess]=useState("");
+  const router = useRouter();
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("FORM SUBMIT TRIGGERED ✅");
-  setSuccess("");
+    setSuccess("");
     // TODO: Implement login logic
     try {
-      const response=await axios.post("http://localhost:4000/api/auth/login",{
+      const response = await axios.post("http://localhost:4000/api/auth/login", {
         email,
         password
       })
-      console.log("loginin successful",response);
+      console.log("loginin successful", response);
       console.log("Full login response:", response.data);
-       // Store the JWT token in localStorage
-       if (response.data.jwtToken) {
+
+      // // Clear old token and student info
+      // localStorage.removeItem("authToken");
+      // localStorage.removeItem("studentInfo");
+      // // Store the JWT token in localStorage
+      if (response.data.jwtToken) {
         localStorage.setItem("authToken", response.data.jwtToken);
         console.log("Token saved:", response.data.jwtToken);
         console.log("Token in storage:", localStorage.getItem("authToken"));
-        
+
         // Store student info if needed
         if (response.data.student) {
           localStorage.setItem("studentInfo", JSON.stringify(response.data.student));
@@ -44,7 +48,7 @@ export default function LoginPage() {
       setTimeout(() => {
         router.push("/student");
       }, 1000);
-     
+
       setEmail("");
       setPassword("");
     } catch (error) {
@@ -64,11 +68,11 @@ export default function LoginPage() {
           <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
           <CardDescription>
             Enter your email and password to sign in to your account
-           
+
           </CardDescription>
           {success && <div className="text-green-500 text-sm mb-4">{success}</div>}
         </CardHeader>
-         <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -103,7 +107,7 @@ export default function LoginPage() {
               </Link>
             </p>
           </CardFooter>
-          </form>
+        </form>
       </Card>
     </div>
   );

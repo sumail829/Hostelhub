@@ -62,7 +62,6 @@ export default function ServicesPage() {
   return (
 
     <div>
-      <Navbar></Navbar>
       <main className="container mx-auto py-8 px-4">
 
         <div className="text-center mb-8">

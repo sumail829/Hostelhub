@@ -14,7 +14,7 @@ export const verifyStudentToken = (req, res, next) => {
     if (err) {
       return res.status(401).json({ message: "Invalid or expired token" });
     }
-
+    console.log("✅ Decoded token:", decoded); 
     req.user = decoded;
     next();
   });
