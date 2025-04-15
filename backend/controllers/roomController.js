@@ -17,7 +17,6 @@ cloudinary.config({
 export const createRoom = [upload.single('roomimage'), async (req, res) => {
     try {
         const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
-        console.log(cloudinaryResponse, "cloudinary Response");
 
         const { roomNumber, capacity, occupied, students } = req.body;
 
@@ -56,8 +55,6 @@ export const createRoom = [upload.single('roomimage'), async (req, res) => {
 export const enrollStudentInRoom = async (req, res) => {
     try {
 
-        console.log("👤 req.user.id:", req.user.id); // <-- ADD THIS
-        console.log("📦 req.body:", req.body);  
 
         const { roomNumber } = req.body;
         const studentid = req.user.id;   // Assuming you're passing roomId and studentId in the body 
@@ -68,7 +65,6 @@ export const enrollStudentInRoom = async (req, res) => {
         if (!room) {
             return res.status(404).json({ message: "Room not found" });
         }
-        console.log("📦 Room found:", room);
 
         // Check if room is available (based on occupancy and capacity)
         if (room.occupied >= room.capacity) {
@@ -87,7 +83,6 @@ export const enrollStudentInRoom = async (req, res) => {
         if (alreadyEnrolled) {
             return res.status(400).json({ message: "Student is already enrolled in a room" });
         }
-        console.log("🔁 Already Enrolled Check:", alreadyEnrolled);
 
         // Update student's roomNumber
         student.roomNumber = room.roomNumber;

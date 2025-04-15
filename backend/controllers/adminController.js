@@ -3,6 +3,7 @@ import Admin from "../models/Admin.js";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose";
+import 'dotenv/config'
 
 export const createAdmin=async(req,res)=>{
     try {
@@ -40,7 +41,7 @@ export const loginAdmin=async(req,res)=>{
         if(!isMatch){
             return res.status(401).json({message:"Invalid credential"});
         }
-        const token=jwt.sign({id:admin._id,email:admin.email,role:"admin"},"dasdhajshdash123sasdau213",{
+        const token=jwt.sign({id:admin._id,email:admin.email,role:"admin"},process.env.JWT_ADTOKEN,{
             expiresIn:"7d",
         });
         const { password: _, ...adminData } = admin._doc;
