@@ -18,7 +18,7 @@ const MealForm = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:5000/api/meals", form);
+            await axios.post("http://localhost:4000/api/meals", form);
             alert("Meal added!");
             setForm({ type: "veg", day: "sunday", breakfast: "", lunch: "", dinner: "" });
         } catch (error) {

@@ -26,8 +26,6 @@ export default function LoginPage() {
         email,
         password
       })
-      console.log("loginin successful", response);
-      console.log("Full login response:", response.data);
 
       // // Clear old token and student info
       // localStorage.removeItem("authToken");
@@ -35,8 +33,6 @@ export default function LoginPage() {
       // // Store the JWT token in localStorage
       if (response.data.jwtToken) {
         localStorage.setItem("authToken", response.data.jwtToken);
-        console.log("Token saved:", response.data.jwtToken);
-        console.log("Token in storage:", localStorage.getItem("authToken"));
 
         // Store student info if needed
         if (response.data.student) {

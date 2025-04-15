@@ -1,10 +1,8 @@
 "use client"
 
 import axios from 'axios';
-import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import { Check, Trash } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from "next/navigation";
 
@@ -32,7 +30,6 @@ export default function SelectRoom() {
     const chooseRoom = async (roomNumber: string) => {
       try {
         const token = localStorage.getItem("authToken");
-        console.log("📦 token in localStorage:", token);
   
         const res = await axios.post(
           "http://localhost:4000/api/enroll",
@@ -43,8 +40,6 @@ export default function SelectRoom() {
             },
           }
         );
-  
-        console.log("Enrolled successfully:", res.data);
         // ✅ Navigate to student dashboard
         router.push("/student");
       } catch (error) {

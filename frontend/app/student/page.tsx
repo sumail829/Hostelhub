@@ -35,7 +35,6 @@ export default function StudentInfo() {
       try {
         console.log("Fetching student data...");
         const token = localStorage.getItem("authToken");
-        console.log("Token from localStorage:", token);
         
         if (!token) {
           console.log("No token found in localStorage");
@@ -43,9 +42,7 @@ export default function StudentInfo() {
         }
   
         const decoded = jwtDecode(token);
-        console.log("Decoded token:", decoded);
         const studentId = decoded.id || decoded._id;
-        console.log("Student ID:", studentId);
   
         console.log("Making API request...");
         const response = await axios.get(
@@ -56,8 +53,6 @@ export default function StudentInfo() {
             },
           }
         );
-  
-        console.log("API response:", response.data);
         const studentData = response.data.student;
         setStudent(studentData);
       } catch (error) {

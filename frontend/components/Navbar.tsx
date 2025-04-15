@@ -12,7 +12,6 @@ export default function Navbar() {
     { name: 'Home', href: '/', icon: Home },
     { name: 'Rooms', href: '/rooms', icon: Bed },
     { name: 'Services', href: '/services', icon: Coffee },
-    { name: 'Fee Structure', href: '/fees', icon: DollarSign },
     { name: 'About Us', href: '/about', icon: Info },
   ];
 

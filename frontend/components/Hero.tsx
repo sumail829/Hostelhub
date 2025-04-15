@@ -17,7 +17,6 @@ export default function Hero() {
                     },
                 });
         
-                console.log("all student", response);
                 setShowStudents(response.data.students);
             } catch (error) {
                 console.log("Something went wrong", error);

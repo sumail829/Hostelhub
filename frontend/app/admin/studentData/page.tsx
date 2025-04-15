@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import { Interface } from 'readline';
+
 
 interface IStudent{
     _id:string;

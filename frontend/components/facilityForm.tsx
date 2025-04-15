@@ -17,7 +17,7 @@ const FacilityForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/facilities", form);
+      await axios.post("http://localhost:4000/api/facilities", form);
       alert("Facility added!");
       setForm({ title: "", description: "", icon: "", details: "" });
     } catch (error) {

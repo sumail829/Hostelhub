@@ -4,9 +4,6 @@ import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
-import { Check, Trash } from 'lucide-react';
-import { Button } from './ui/button';
-
 interface Room {
   _id: string;
   roomNumber: string;
