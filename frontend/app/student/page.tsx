@@ -7,7 +7,6 @@ import {
   House,
   Info,
   Link,
-  Users,
   Wifi,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -185,7 +184,7 @@ export default function StudentInfo() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Info className="h-4 w-4 text-green-500" />
-                  <span>Workshop: "Intro to AI" on April 22</span>
+                  <span>Workshop: Intro to AI on April 22</span>
                 </div>
               </div>
             </CardContent>

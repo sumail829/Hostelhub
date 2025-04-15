@@ -51,10 +51,10 @@ export default function RoomAdd() {
             setShowAddRoom(false);
             setNewRoom({ roomNumber: "", capacity: 2, roomimage: null });
             fetchRooms(); // refresh
-        } catch (error: any) {
+        } catch (error) {
             console.log(
                 "Room creation failed:",
-                error.response?.data?.message || error.message
+                (axios.isAxiosError(error) && error.response?.data?.message) || String(error)
             );
         }
     };

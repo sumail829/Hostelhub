@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Home, Bed, Coffee, DollarSign, Info, User, Menu, X } from 'lucide-react';
+import { Home, Bed, Coffee, Info, User, Menu, X } from 'lucide-react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

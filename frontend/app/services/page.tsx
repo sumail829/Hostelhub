@@ -53,7 +53,7 @@ export default function ServicesPage() {
           nonVeg: {},
         };
     
-        data.forEach((meal: any) => {
+        data.forEach((meal: { day: string; type: string; breakfast: string; lunch: string; dinner: string }) => {
           const dayKey = meal.day.charAt(0).toUpperCase() + meal.day.slice(1).toLowerCase(); // Capitalize
     
           const entry = {

@@ -22,6 +22,7 @@ const FacilityForm = () => {
       setForm({ title: "", description: "", icon: "", details: "" });
     } catch (error) {
       alert("Failed to add facility.");
+      console.log(error);
     }
   };
 

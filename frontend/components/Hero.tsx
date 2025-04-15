@@ -1,6 +1,6 @@
 "use client"
 import axios from 'axios'
-import { Building2, DollarSign, GraduationCap, Plus } from 'lucide-react'
+import { Building2, DollarSign, GraduationCap } from 'lucide-react'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 

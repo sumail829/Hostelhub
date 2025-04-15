@@ -40,6 +40,8 @@ export default function SelectRoom() {
             },
           }
         );
+  
+        console.log("Enrolled successfully:", res);
         // ✅ Navigate to student dashboard
         router.push("/student");
       } catch (error) {

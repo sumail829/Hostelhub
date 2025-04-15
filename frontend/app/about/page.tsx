@@ -16,12 +16,12 @@ export default function AboutPage() {
           <h2 className="text-2xl font-semibold mb-4">Our Story</h2>
           <p className="text-muted-foreground leading-relaxed mb-4">
             Founded with a vision to create meaningful connections and unforgettable experiences, 
-            we've been providing comfortable and affordable accommodation for travelers from around 
+            we have been providing comfortable and affordable accommodation for travelers from around 
             the world. Our commitment to excellence and community building has made us a trusted 
             name in the hospitality industry.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            We believe in creating more than just a place to stay - we're building a home away 
+            We believe in creating more than just a place to stay - we are building a home away 
             from home where travelers can connect, share stories, and create lasting memories 
             together.
           </p>
@@ -39,7 +39,7 @@ export default function AboutPage() {
             <div>
               <h3 className="text-lg font-medium mb-2">Sustainability</h3>
               <p className="text-muted-foreground">
-                We're committed to reducing our environmental impact through eco-friendly practices.
+                We are committed to reducing our environmental impact through eco-friendly practices.
               </p>
             </div>
             <div>

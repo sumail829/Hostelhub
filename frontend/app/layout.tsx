@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import { Toast } from "@/components/ui/toaster"
 import { ToastProvider } from "@radix-ui/react-toast";
 
