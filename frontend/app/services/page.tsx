@@ -36,7 +36,6 @@ export default function ServicesPage() {
     const fetchFacilities = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/facilities");
-        console.log(response)
         setFacilities(response.data.facilities);
         
       } catch (error) {
@@ -76,7 +75,6 @@ export default function ServicesPage() {
           setSelectedDay(Object.keys(transformedMeals.veg)[0]);
         }
     
-        console.log("Transformed meals:", transformedMeals);
       } catch (error) {
         console.log("Error fetching meals:", error);
       }
