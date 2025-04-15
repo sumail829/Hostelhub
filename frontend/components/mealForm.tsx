@@ -23,6 +23,7 @@ const MealForm = () => {
             setForm({ type: "veg", day: "sunday", breakfast: "", lunch: "", dinner: "" });
         } catch (error) {
             alert("Failed to add meal.");
+            console.log(error)
         }
     };
 

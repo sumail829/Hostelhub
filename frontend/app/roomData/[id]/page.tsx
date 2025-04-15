@@ -1,11 +1,15 @@
-
 import Roomdetails from '@/components/roomdetails';
-import React from 'react';
 
-export default async function RoomDetailsPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function RoomDetailsPage({ params }: PageProps) {
+  const { id } = await params;
+
   return (
     <div>
-      <Roomdetails id={params.id} />
+      <Roomdetails id={id} />
     </div>
   );
 }

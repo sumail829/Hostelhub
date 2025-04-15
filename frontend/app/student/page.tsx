@@ -26,6 +26,12 @@ interface Student {
   addmissionDate: string;
 }
 
+interface DecodedToken {
+  id?: string;
+  _id?: string;
+  // add any other fields if needed
+}
+
 export default function StudentInfo() {
   const [student, setStudent] = useState<Student | null>(null);
 
@@ -40,7 +46,7 @@ export default function StudentInfo() {
           return;
         }
   
-        const decoded = jwtDecode(token);
+        const decoded = jwtDecode<DecodedToken>(token);
         const studentId = decoded.id || decoded._id;
   
         console.log("Making API request...");
