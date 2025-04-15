@@ -41,7 +41,7 @@ export default function StudentsData() {
 
             // If token is valid, proceed with the API call
             try {
-                const response = await axios.get('http://localhost:4000/api/students', {
+                const response = await axios.get('https://hostelhub-kgof.onrender.com/api/students', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

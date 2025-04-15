@@ -22,7 +22,7 @@ export default function LoginPage() {
     setSuccess("");
     // TODO: Implement login logic
     try {
-      const response = await axios.post("http://localhost:4000/api/auth/login", {
+      const response = await axios.post("https://hostelhub-kgof.onrender.com/api/auth/login", {
         email,
         password
       })

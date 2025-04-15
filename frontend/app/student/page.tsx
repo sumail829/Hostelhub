@@ -51,7 +51,7 @@ export default function StudentInfo() {
   
         console.log("Making API request...");
         const response = await axios.get(
-          `http://localhost:4000/api/students/${studentId}`,
+          `https://hostelhub-kgof.onrender.com/api/students/${studentId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

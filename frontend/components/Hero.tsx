@@ -11,7 +11,7 @@ export default function Hero() {
             try {
                 const token = localStorage.getItem("adminToken"); // or sessionStorage, based on your app
         
-                const response = await axios.get("http://localhost:4000/api/students", {
+                const response = await axios.get("https://hostelhub-kgof.onrender.com/api/students", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

@@ -42,7 +42,7 @@ export default function SignupPage() {
       setError("Password didnt match");
     }
     try {
-      const response = await axios.post("http://localhost:4000/api/students/signup", {
+      const response = await axios.post("https://hostelhub-kgof.onrender.com/api/students/signup", {
         fullName,
         email,
         password,

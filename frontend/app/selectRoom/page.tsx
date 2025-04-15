@@ -20,7 +20,7 @@ export default function SelectRoom() {
     const router = useRouter();
     const fetchRooms = async () => {
       try {
-        const res = await axios.get("http://localhost:4000/api/rooms");
+        const res = await axios.get("https://hostelhub-kgof.onrender.com/api/rooms");
         setRooms(res.data.roominfo);
       } catch (error) {
         console.error("Error fetching rooms:", error);
@@ -32,7 +32,7 @@ export default function SelectRoom() {
         const token = localStorage.getItem("authToken");
   
         const res = await axios.post(
-          "http://localhost:4000/api/enroll",
+          "https://hostelhub-kgof.onrender.com/api/enroll",
           { roomNumber },
           {
             headers: {

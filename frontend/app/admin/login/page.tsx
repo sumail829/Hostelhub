@@ -30,7 +30,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:4000/api/admin/loginAdmin", {
+      const response = await axios.post("https://hostelhub-kgof.onrender.com/api/admin/loginAdmin", {
         email,
         password,
       });

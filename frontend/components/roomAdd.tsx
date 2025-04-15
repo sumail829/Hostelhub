@@ -41,7 +41,7 @@ export default function RoomAdd() {
             formData.append("occupied", "0"); // or "0"
             formData.append("roomimage", newRoom.roomimage as File); // Use the selected file from state
 
-            const res = await axios.post("http://localhost:4000/api/rooms", formData, {
+            const res = await axios.post("https://hostelhub-kgof.onrender.com/api/rooms", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
@@ -60,7 +60,7 @@ export default function RoomAdd() {
     };
     const deleteRoom = async (id: string) => {
         try {
-            const response = await axios.delete(`http://localhost:4000/api/rooms/${id}`);
+            const response = await axios.delete(`https://hostelhub-kgof.onrender.com/api/rooms/${id}`);
             console.log(response.data.message);
             fetchRooms(); // refresh
         } catch (error) {

@@ -35,7 +35,7 @@ export default function ServicesPage() {
   useEffect(() => {
     const fetchFacilities = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/facilities");
+        const response = await axios.get("https://hostelhub-kgof.onrender.com/api/facilities");
         setFacilities(response.data.facilities);
         
       } catch (error) {
@@ -45,7 +45,7 @@ export default function ServicesPage() {
 
     const fetchMeals = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/meals");
+        const response = await axios.get("https://hostelhub-kgof.onrender.com/api/meals");
         const data = response.data.meals; // this is the array
         const transformedMeals: Meal = {
           veg: {},

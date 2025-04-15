@@ -16,7 +16,7 @@ export default function Roomdetails({ id }: { id: string }) {
 
   const fetchRoomDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/rooms/${id}`);
+      const response = await axios.get(`https://hostelhub-kgof.onrender.com/api/rooms/${id}`);
       setRoom(response.data.roominfo); // Adjust key based on your backend response
     } catch (error) {
       console.log("Something went wrong", error);

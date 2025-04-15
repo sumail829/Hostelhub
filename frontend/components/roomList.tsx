@@ -17,7 +17,7 @@ export default function RoomList() {
 
   const fetchRooms = async () => {
     try {
-      const res = await axios.get("http://localhost:4000/api/rooms");
+      const res = await axios.get("https://hostelhub-kgof.onrender.com/api/rooms");
       setRooms(res.data.roominfo);
     } catch (error) {
       console.error("Error fetching rooms:", error);
