@@ -7,6 +7,8 @@ interface PageProps {
 export default async function RoomDetailsPage({ params }: PageProps) {
   const { id } = await params;
 
+  
+
   return (
     <div>
       <Roomdetails id={id} />

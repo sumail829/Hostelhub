@@ -2,12 +2,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import ServicesPage from './services/page';
-import Navbar from '@/components/Navbar';
+
 
 export default function Home() {
   return (
     <div>
-      <Navbar></Navbar>
       {/* Hero Section */}
       <section 
         className="relative h-[600px] bg-cover bg-center"
